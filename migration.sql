@@ -1,9 +1,9 @@
 
 DECLARE @Text NVARCHAR(MAX),@First  NVARCHAR(MAX),@Second  NVARCHAR(MAX),@Third  NVARCHAR(MAX),@Fourth NVARCHAR(MAX)
---SET @Text = 'Potential Donor - Eyes,MSK; Not Approached - Skin; Refusal - Cardiovascular; Medically unsuitable - Test1'
+SET @Text = 'Potential Donor - Eyes,MSK; Not Approached - Skin; Refusal - Cardiovascular; Medically unsuitable - Test1'
 --SET @Text = 'Potential Donor - Eyes,MSK; Not Approached - Skin,MSK,TEST1; Medically unsuitable - Test1'
 --SET @Text = 'Potential Donor - Eyes,MSK;'
-SET @Text = 'Not Approached - Skin,MSK,TEST1; Refusal - Cardiovascular; Medically unsuitable - Test1'
+--SET @Text = 'Medically unsuitable - Test1'
 SET @First = 'Not Approached - '
 SET @Second = 'Potential Donor - '
 SET @Third = 'Refusal -'
@@ -32,7 +32,7 @@ BEGIN
 	ELSE 
 	BEGIN 
 		SELECT LTRIM(SUBSTRING(@Text, CHARINDEX(@Second, @Text) + LEN(@Second), 
-                 LEN(@Text) - CHARINDEX(@Second, @Text) - LEN(@Second)))
+                 (LEN(@Text)+1) - CHARINDEX(@Second, @Text) - LEN(@Second)))
 	END
 END
 
@@ -47,12 +47,12 @@ BEGIN
 	ELSE
 	BEGIN
 		SELECT LTRIM(SUBSTRING(@Text, CHARINDEX(@Third, @Text) + LEN(@Third), 
-                 LEN(@Text) - CHARINDEX(@Third, @Text) - LEN(@Third)))
+                 (LEN(@Text)+1) - CHARINDEX(@Third, @Text) - LEN(@Third)))
 	END
 END
 
 IF(CHARINDEX(@Fourth,@Text)>0)
 BEGIN
 		SELECT LTRIM(SUBSTRING(@Text, CHARINDEX(@Fourth, @Text) + LEN(@Fourth), 
-                 LEN(@Text) - CHARINDEX(@Fourth, @Text) - LEN(@Fourth)))
+                 (LEN(@Text)+1) - CHARINDEX(@Fourth, @Text) - LEN(@Fourth)))
 END
